@@ -2,9 +2,9 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-id_do_servidor = "1058104550734712933"
+id_do_servidor = ""
 id_cargo_atendente = "1058217906745376798"
-token_bot ="MTA1ODIzODUyMTIwODQ4Nzk0Ng.Gy1ObC.Yc0Uncepjn89ie47CuDO3Np_SoieYvbvRBXmfo"
+token_bot =""
 
 
 class Dropdown(discord.ui.Select):
