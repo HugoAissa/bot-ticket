@@ -2,20 +2,16 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-id_do_servidor = ""
+id_do_servidor = "1058104550734712933"
 id_cargo_atendente = "1058217906745376798"
-token_bot =""
+token_bot ="MTA1ODIzODUyMTIwODQ4Nzk0Ng.GpcNJ4.3Qrc3SSM7D0u7mnIjKp8ePe7616A6xXs2iqgkg"
 
 
 class Dropdown(discord.ui.Select):
     def __init__(self):
         options = [
             discord.SelectOption(value="ajuda",label="Fazer uma Denuncia"),
-            discord.SelectOption(value="atendimento",label="Report-Bug"),
             discord.SelectOption(value="duvidas",label="Tirar-Duvidas"),
-            discord.SelectOption(value="sugestao",label="Enviar Sugestão"),
-            
-
         ]
         super().__init__(
             placeholder="Selecione uma opção...",
@@ -26,14 +22,9 @@ class Dropdown(discord.ui.Select):
         )
     async def callback(self, interaction: discord.Interaction):
         if self.values[0] == "ajuda":
-            await interaction.response.send_message("Clique abaixo para criar um denuncia",ephemeral=True, view=CreateTicket())
-        elif self.values[0] == "atendimento":
-            await interaction.response.send_message("Clique abaixo para reportar um bug",ephemeral=True,view=CreateTicket())
-
-        if self.values[0] == "duvidas":
-            await interaction.response.send_message("Clique abaixo para tirar suas duvidas",ephemeral=True, view=CreateTicket())
-        elif self.values[0] == "sugestao":
-            await interaction.response.send_message("Clique abaixo para enviar uma sugestão",ephemeral=True,view=CreateTicket())
+            await interaction.response.send_message("Clique abaixo para criar um denuncia.",ephemeral=True, view=CreateTicket())
+        elif self.values[0] == "duvidas":
+            await interaction.response.send_message("Clique abaixo para tirar suas duvidas.",ephemeral=True,view=CreateTicket()) 
 
 
 class DropdownView(discord.ui.View):
@@ -68,9 +59,8 @@ class CreateTicket(discord.ui.View):
             ticket = await interaction.channel.create_thread(name=f"{interaction.user.name} ({interaction.user.id})",auto_archive_duration=10080)#,type=discord.ChannelType.public_thread)
             await ticket.edit(invitable=False)
 
-        await interaction.response.send_message(ephemeral=True,content=f"Criei um ticket para você! {ticket.mention}")
-        await ticket.send(f"<@&1058217906745376798> {interaction.user.mention}  Ticket criado!, siga o exemplo abaixo!")
-
+            await interaction.response.send_message(ephemeral=True,content=f"Criei um ticket para você! {ticket.mention}")
+            await ticket.send(f"<@&1058217906745376798> {interaction.user.mention}  Ticket criado!, Informe oque deseja, nossa equipe ira te responder.")
 
 
 class client(discord.Client):
@@ -95,8 +85,10 @@ tree = app_commands.CommandTree(aclient)
 @tree.command(guild = discord.Object(id=id_do_servidor), name = 'setup', description='Setup')
 @commands.has_permissions(manage_guild=True)
 async def setup(interaction: discord.Interaction):
-  await interaction.channel.send(view=DropdownView())
-  
+    await interaction.response.send_message(view=DropdownView()) 
+
+
+
 
 @tree.command(guild = discord.Object(id=id_do_servidor), name="fecharticket",description='Feche um atendimento atual.')
 async def _fecharticket(interaction: discord.Interaction):
